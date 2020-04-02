@@ -13,8 +13,8 @@
     let l = document.createElement('link');
     l.rel = "stylesheet";
     l.href = "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css";
-    l.onerror = _ => { s.innerText = "Oh noes! The CSS file didn't load!" };
-    l.onload = _ => { s.innerText = "Huzzah! The CSS file loaded!;
+    l.onerror = _ => { s.innerText = "Oh noes! The CSS file didn't load!"; };
+    l.onload = _ => { s.innerText = "Huzzah! The CSS file loaded!"; };
     document.head.appendChild(l);
   </script>
 </body>
