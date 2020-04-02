@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+  <h1>Test for <a href="https://github.com/MaxCDN/bootstrapcdn/issues/1495">MaxCDN/bootstrapcdn#1495</a></h1>
+  <p>Loading <code>https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css</code>:
+    <span></span>
+  </p>
+  <script>
+    let s = document.querySelector('span');
+    let l = document.createElement('link');
+    l.rel = "stylesheet";
+    l.href = "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css";
+    l.onerror = _ => { s.innerText = "Oh noes! The CSS file didn't load!" };
+    l.onload = _ => { s.innerText = "Huzzah! The CSS file loaded!;
+    document.head.appendChild(l);
+  </script>
+</body>
+</html>
