@@ -9,13 +9,23 @@
     <span></span>
   </p>
   <script>
-    let s = document.querySelector('span');
+    let s = document.querySelectorAll('span')[0];
     let l = document.createElement('link');
     l.rel = "stylesheet";
     l.href = "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css";
     l.onerror = _ => { s.innerText = "Oh noes! The CSS file didn't load!"; };
     l.onload = _ => { s.innerText = "Huzzah! The CSS file loaded!"; };
     document.head.appendChild(l);
+  </script>
+  
+  <p>Fetching <code>https://wpt.live/fetch/cross-origin-resource-policy/resources/hello.py?corp=same-origin</code>:
+    <span></span>
+  </p>
+  <script>
+    let s = document.querySelectorAll('span')[1];
+    fetch("https://wpt.live/fetch/cross-origin-resource-policy/resources/hello.py?corp=same-origin", { mode: "no-cors" })
+      .then(_ => { s.innerText = "Oh noes! The fetch succeeded!"; })
+      .catch(_ => { s.innerText = "Huzzah! The fetch failed!"; });
   </script>
 </body>
 </html>
