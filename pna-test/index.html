@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PNA Test - 2022-05-24</title>
+</head>
+<body>
+  <script>
+    fetch("http://localhost:8000/?GET")
+      .then(r => r.text())
+      .then(t => document.querySelector('pre').innerText += `${t}\n`)
+  
+    fetch("http://localhost:8000/?POST", {
+      "method": "POST",
+      "headers": [["Super-Special-Header", "Value"]]
+    })
+      .then(r => r.text())
+      .then(t => document.querySelector('pre').innerText += `${t}\n`)
+  </script>
+  <pre></pre>
+</body>
+</html>
