@@ -25,32 +25,21 @@
             'playsinline': 1
           },
           events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
+            'onReady': onPlayerReady
           }
         });
       }
 
       // 4. The API will call this function when the video player is ready.
       function onPlayerReady(event) {
+        // Try to play directly.
+        event.target.playVideo();
+        
+        // Also set up a play button to grab a user gesture.
         let b = document.createElement('button');
         b.innerText = "Play";
         b.onclick = _ => { event.target.playVideo() };
         document.body.appendChild(b);
-      }
-
-      // 5. The API calls this function when the player's state changes.
-      //    The function indicates that when playing a video (state=1),
-      //    the player should play for six seconds and then stop.
-      var done = false;
-      function onPlayerStateChange(event) {
-        if (event.data == YT.PlayerState.PLAYING && !done) {
-          setTimeout(stopVideo, 6000);
-          done = true;
-        }
-      }
-      function stopVideo() {
-        player.stopVideo();
       }
     </script>
   </body>
