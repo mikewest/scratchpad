@@ -14,6 +14,18 @@ function hideThisFunction() {
   window.onmessage = _ => { generateStack('postmessage'); };
   window.postMessage("Hi.", "*");
 
+  // eval()
+  eval("generateStack('eval')");
+
+  // Promise
+  new Promise(generateStack.bind(null, "Promise"));
+
+  // Promise.resolve
+  Promise.resolve('Promise.resolve').then(generateStack.bind(null, "Promise.resolve"));
+
+  // Promise.reject
+  Promise.reject('Promise.reject').catch(generateStack.bind(null, "Promise.reject"));
+
   // <script>
   generateStackThroughScriptTag('<script>');
 
@@ -62,7 +74,6 @@ function hideThisFunction() {
 function generateStackThroughScriptTag(name) {
   const s = document.createElement('script');
   s.innerText = `generateStack('${name}');`;
-  s.defer = true;
   document.body.appendChild(s);
 }
 
@@ -88,4 +99,24 @@ function generateStackThroughFrame(name) {
 
 function test() {
   hideThisFunction();
+  asyncHideThisFunction();
+}
+
+async function asyncHideThisFunction() {
+  return new Promise(async (resolve, reject) => {
+    // Not hiding anything.
+    generateStack('async default');
+
+    // setTimeout
+    setTimeout(_ => { generateStack('async setTimeout'); }, 1);
+    
+    // <script>
+    await generateStackThroughScriptTag('await <script>');
+
+    // await + generateStack()
+    await 1;
+    generateStack('await, then generate');
+
+    resolve();
+  });
 }
