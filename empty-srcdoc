@@ -1,0 +1,11 @@
+<!-- from https://github.com/WICG/turtledove/issues/322 -->
+<iframe id="with_empty_srcdoc" srcdoc="" width="200" height="200" ></iframe>
+<iframe id="without_srcdoc" width="200" height="200" ></iframe>
+<iframe id="with_non_empty_srcdoc" srcdoc="<iframe src='https://creativecdn.com/creatives?id=6F5AeFDSQ4j6D1XoJzHb&cs=320x100&c=kQKZEgHd2MX0GUG9VHAS&s=rtbhfledge'/>" width="200" height="200" ></iframe>
+<script>
+var ad_url = 'https://creativecdn.com/creatives?id=6F5AeFDSQ4j6D1XoJzHb&cs=320x100&c=kQKZEgHd2MX0GUG9VHAS&s=rtbhfledge'
+document.querySelector('#with_empty_srcdoc')
+        .contentDocument.write("<h1>Injected from parent frame</h1><script>console.log(window.isSecureContext);<\/script><iframe src='"+ad_url+"'/>")
+document.querySelector('#without_srcdoc')
+        .contentDocument.write("<h1>Injected from parent frame</h1><script>console.log(window.isSecureContext);<\/script><iframe src='"+ad_url+"'/>")
+</script>
