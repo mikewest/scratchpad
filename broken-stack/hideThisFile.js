@@ -4,7 +4,10 @@ function hideThisFunction() {
 
   // setTimeout
   setTimeout(_ => { generateStack('setTimeout'); }, 1);
-
+  
+  // requestIdleCallback
+  requestIdleCallback(_ => { generateStack('requestIdleCallback'); });
+  
   // event handler
   let i = document.createElement('img');
   i.onerror = _ => generateStack('onerror');
@@ -32,6 +35,9 @@ function hideThisFunction() {
   // setTimeout + <script>
   setTimeout(_ => { generateStackThroughScriptTag('setTimeout + <script>'); }, 1);
 
+  // requestIdleCallback + <script>
+  requestIdleCallback(_ => { generateStackThroughScriptTag('requestIdleCallback + <script>'); }, 1);
+
   // onerror + <script>
   let i2 = document.createElement('img');
   i2.onerror = _ => { generateStackThroughScriptTag('onerror + <script>'); };
@@ -42,6 +48,9 @@ function hideThisFunction() {
 
   // setTimeout + <script> + blob
   setTimeout(_ => { generateStackThroughBlob('setTimeout + <script src="blob:">'); }, 1);
+
+  // requestIdleCallback + <script> + blob
+  requestIdleCallback(_ => { generateStackThroughBlob('requestIdleCallback + <script src="blob:">'); }, 1);
 
   // onerror + <script> + blob
   let i3 = document.createElement('img');
@@ -54,6 +63,9 @@ function hideThisFunction() {
   // setTimeout + <script> + data
   setTimeout(_ => { generateStackThroughData('setTimeout + <script src="data:">'); }, 1);
 
+  // requestIdleCallback + <script> + data
+  requestIdleCallback(_ => { generateStackThroughData('requestIdleCallback + <script src="data:">'); }, 1);
+
   // onerror + <script> + data
   let i4 = document.createElement('img');
   i4.onerror = _ => { generateStackThroughData('onerror + <script src="data:">'); };
@@ -65,13 +77,13 @@ function hideThisFunction() {
   // setTimeout + <iframe srcdoc>
   setTimeout(_ => { generateStackThroughFrame('setTimeout + <iframe srcdoc>'); }, 1);
 
+  // requestIdleCallback + <iframe srcdoc>
+  requestIdleCallback(_ => { generateStackThroughFrame('requestIdleCallback + <iframe srcdoc>'); }, 1);
+
   // onerror + <script> + data
   let i5 = document.createElement('img');
   i5.onerror = _ => { generateStackThroughFrame('onerror + <iframe srcdoc>'); };
   i5.src = "file:///b";
-  
-  // requestIdleCallback
-  requestIdleCallback(_ => { generateStack('requestIdleCallback'); });
 }
 
 function generateStackThroughScriptTag(name) {
