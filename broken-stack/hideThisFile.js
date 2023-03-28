@@ -69,6 +69,9 @@ function hideThisFunction() {
   let i5 = document.createElement('img');
   i5.onerror = _ => { generateStackThroughFrame('onerror + <iframe srcdoc>'); };
   i5.src = "file:///b";
+  
+  // requestIdleCallback
+  requestIdleCallback(_ => { generateStack('requestIdleCallback'); });
 }
 
 function generateStackThroughScriptTag(name) {
