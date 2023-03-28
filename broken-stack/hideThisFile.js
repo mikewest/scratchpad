@@ -36,7 +36,7 @@ function hideThisFunction() {
   setTimeout(_ => { generateStackThroughScriptTag('setTimeout + <script>'); }, 1);
 
   // requestIdleCallback + <script>
-  requestIdleCallback(_ => { generateStackThroughScriptTag('requestIdleCallback + <script>'); }, 1);
+  requestIdleCallback(_ => { generateStackThroughScriptTag('requestIdleCallback + <script>'); });
 
   // onerror + <script>
   let i2 = document.createElement('img');
@@ -50,7 +50,7 @@ function hideThisFunction() {
   setTimeout(_ => { generateStackThroughBlob('setTimeout + <script src="blob:">'); }, 1);
 
   // requestIdleCallback + <script> + blob
-  requestIdleCallback(_ => { generateStackThroughBlob('requestIdleCallback + <script src="blob:">'); }, 1);
+  requestIdleCallback(_ => { generateStackThroughBlob('requestIdleCallback + <script src="blob:">'); });
 
   // onerror + <script> + blob
   let i3 = document.createElement('img');
@@ -64,7 +64,7 @@ function hideThisFunction() {
   setTimeout(_ => { generateStackThroughData('setTimeout + <script src="data:">'); }, 1);
 
   // requestIdleCallback + <script> + data
-  requestIdleCallback(_ => { generateStackThroughData('requestIdleCallback + <script src="data:">'); }, 1);
+  requestIdleCallback(_ => { generateStackThroughData('requestIdleCallback + <script src="data:">'); });
 
   // onerror + <script> + data
   let i4 = document.createElement('img');
@@ -78,7 +78,7 @@ function hideThisFunction() {
   setTimeout(_ => { generateStackThroughFrame('setTimeout + <iframe srcdoc>'); }, 1);
 
   // requestIdleCallback + <iframe srcdoc>
-  requestIdleCallback(_ => { generateStackThroughFrame('requestIdleCallback + <iframe srcdoc>'); }, 1);
+  requestIdleCallback(_ => { generateStackThroughFrame('requestIdleCallback + <iframe srcdoc>'); });
 
   // onerror + <script> + data
   let i5 = document.createElement('img');
