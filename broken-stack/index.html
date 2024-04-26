@@ -3,7 +3,7 @@
 <script>
   function generateStack(name) {
     let stack = (new Error()).stack;
-    let hidFunction = stack.includes('hideThisFunction') ? '❌':'✅';
+    let hidFunction = (stack.includes('hideThisFunction') || stack.includes('asyncHideThisFunction')) ? '❌':'✅';
     let hidFile = stack.includes('hideThisFile') ? '❌':'✅';
     let d = document.createElement('details');
     let s = document.createElement('summary');
