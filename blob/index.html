@@ -1,0 +1,10 @@
+<script>
+  fetch('https://openfpcdn.io/fingerprintjs/v4', { mode: "cors" })
+    .then(r => r.blob())
+    .then(b => {
+      import(URL.createObjectURL(b))
+        .then(FingerprintJS => FingerprintJS.load())
+        .then(fp => fp.get())
+        .then(r => console.log(r.visitorId))
+    });
+</script>
