@@ -70,7 +70,7 @@ function hideThisFunction() {
   i5.onerror = _ => { generateStackThroughFrame('onerror + <iframe srcdoc>'); };
   i5.src = "file:///b";
 
-  if (requestIdleCallback) {
+  if (typeof requestIdleCallback === "function") {
     // requestIdleCallback
     requestIdleCallback(_ => { generateStack('requestIdleCallback'); });
     
