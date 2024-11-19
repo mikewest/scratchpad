@@ -1,0 +1,57 @@
+<style>
+  body, html { background: #EEE; }
+  section {
+    background: #FFF;
+    margin: 1em;
+    padding: 1em;
+    border-radius: 1em;
+  }
+  section strong {
+    display: block;
+  }
+  #input {
+    width: 700px;
+    height: 200px;
+  }
+</style>
+<section>
+  <strong>Message</strong>
+  <textarea id="input">Hello, world.</textarea>
+</section>
+<section>
+  <strong>Digests</strong>
+  <pre id="output"></pre>
+</section>
+<script>
+
+  function bufferToBase64(buffer) {
+    var binary = '';
+    var bytes = new Uint8Array(buffer);
+    var len = bytes.byteLength;
+    for (var i = 0; i < len; i++) {
+        binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa( binary );
+  }
+
+  function updateHashes() {
+    const textarea = document.getElementById('input');
+    const encoder = new TextEncoder();
+    const data = encoder.encode(textarea.value);
+    Promise.all([
+      crypto.subtle.digest("SHA-256", data),
+      crypto.subtle.digest("SHA-384", data),
+      crypto.subtle.digest("SHA-512", data),
+    ]).then(digests => {
+      let result = {
+        "sha-256": bufferToBase64(digests[0]),
+        "sha-384": bufferToBase64(digests[1]),
+        "sha-512": bufferToBase64(digests[2]),
+      };
+      document.querySelector('#output').innerText = JSON.stringify(result, null, "  ");
+    });
+  }
+
+  document.getElementById('input').addEventListener('input', updateHashes);
+  updateHashes();
+</script>
