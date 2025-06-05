@@ -50,12 +50,16 @@ class ScratchpadGeolocation extends HTMLElement {
         border-radius: 8px;
         border: 0px;
         font-size: 0.8rem;
-        width: 350px;
-        padding: 0.5rem;
+        width: 300px;
+        padding: 0.5rem 0;
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
       }
         dialog::backdrop {
           background: rgba(0, 0, 0, 0.5);
+        }
+        dialog p {
+          text-align: center;
+          margin: 0.5em 1em;
         }
         dialog p:first-child {
           font-weight: bold;
@@ -65,11 +69,13 @@ class ScratchpadGeolocation extends HTMLElement {
           width: 100%;
         }
         dialog button {
-          width: 100%;
+          min-width: 90%;
           background-color: #D3E3FD;
           border: 0;
           color: #051D49;
-          margin: 0.25em 0;
+          margin: 0.55em auto;
+          display: block;
+
         }
     `;
 
