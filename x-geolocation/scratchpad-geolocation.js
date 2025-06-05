@@ -2,12 +2,20 @@ class ScratchpadGeolocation extends HTMLElement {
   static LOCATION_REFRESHED = "location-refreshed";
   
   #userHasSeenAndAcceptedTheDialog = false;
+  #precision = "coarse";
+
+  #demoData = {
+    precise: { latitude: -33.856159, longitude: 151.215256 }, // Sydney Opera House
+    coarse: { latitude: -33.87, longitude: 151.21 }, // Sydneyish
+  };
 
   constructor() {
     super();
   }
 
   connectedCallback() {
+    this.#precision = this.hasAttribute('precise') ? "precise" : "coarse";
+
     this.buildElement();
     this.shadowRoot.querySelector('button').addEventListener('click', _ => { this.handleClick() });
   }
@@ -85,7 +93,7 @@ class ScratchpadGeolocation extends HTMLElement {
     img.src = "https://fonts.gstatic.com/s/i/short-term/release/googlesymbols/my_location/default/24px.svg";
     button.appendChild(img);
 
-    const txt = document.createTextNode("Share current location");
+    const txt = document.createTextNode(this.#precision === "precise" ? "Share your precise location" : "Share your location");
     button.appendChild(txt);
 
     root.appendChild(style);
@@ -96,7 +104,7 @@ class ScratchpadGeolocation extends HTMLElement {
     if (this.#userHasSeenAndAcceptedTheDialog) {
       this.dispatchEvent(
         new CustomEvent(ScratchpadGeolocation.LOCATION_REFRESHED, {
-          detail: { latitude: -33.856159, longitude: 151.215256 }
+          detail: this.#demoData[this.#precision]
         }));
     } else {
       const dialog = document.createElement('dialog');
@@ -115,7 +123,7 @@ class ScratchpadGeolocation extends HTMLElement {
         dialog.close();
         this.dispatchEvent(
           new CustomEvent(ScratchpadGeolocation.LOCATION_REFRESHED, {
-            detail: { latitude: -33.856159, longitude: 151.215256 }
+            detail: this.#demoData[this.#precision]
           }));
       });
       buttons[1].addEventListener('click', _ => {

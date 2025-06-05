@@ -21,25 +21,27 @@
   <script src="./scratchpad-geolocation.js"></script>
 </head>
 <body>
-  <scratchpad-geolocation once></scratchpad-geolocation>
-  <output></output>
+  <scratchpad-geolocation></scratchpad-geolocation>
+  <scratchpad-geolocation precise></scratchpad-geolocation>
   <script>
-    const el = document.querySelector('scratchpad-geolocation');
-    const out = document.querySelector('output');
-    let still = "";
-    el.addEventListener(ScratchpadGeolocation.LOCATION_REFRESHED, e => {
-      console.dir(e);
-      if (e.detail.latitude) {
-        // My kingdom for a sanitizer...
-        const p = document.createElement('p');
-        p.textContent = `You're ${still}in Sydney! (${e.detail.latitude}, ${e.detail.longitude})`;
-        out.appendChild(p);
-        still = "still ";
-      } else {
-        const p = document.createElement('p');
-        p.textContent = `I have no idea where you are. :(`;
-        out.appendChild(p);
-      }
+    document.querySelectorAll('scratchpad-geolocation').forEach(el => {
+      el.output = document.createElement('output');
+      el.after(el.output);
+      let still = "";
+      el.addEventListener(ScratchpadGeolocation.LOCATION_REFRESHED, e => {
+        if (e.detail.latitude) {
+          // My kingdom for a sanitizer...
+          const p = document.createElement('p');
+          const loc = e.detail.latitude.toFixed(2) == e.detail.latitude ? "in Sydney" : "at the Sydney Opera House";
+          p.textContent = `You're ${still}${loc}! (${e.detail.latitude}, ${e.detail.longitude})`;
+          el.output.appendChild(p);
+          still = "still ";
+        } else {
+          const p = document.createElement('p');
+          p.textContent = `I have no idea where you are. :(`;
+          el.output.appendChild(p);
+        }
+      });
     });
   </script>
 
