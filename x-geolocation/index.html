@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Geolocation Mockup</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      font-family: sans-serif;
+      background-color: #f0f0f0;
+    }
+    output {
+      display:block;
+    }
+  </style>
+  <script src="./scratchpad-geolocation.js"></script>
+</head>
+<body>
+  <scratchpad-geolocation once></scratchpad-geolocation>
+  <output></output>
+  <script>
+    const el = document.querySelector('scratchpad-geolocation');
+    const out = document.querySelector('output');
+    let still = "";
+    el.addEventListener(ScratchpadGeolocation.LOCATION_REFRESHED, e => {
+      console.dir(e);
+      if (e.detail.latitude) {
+        // My kingdom for a sanitizer...
+        const p = document.createElement('p');
+        p.textContent = `You're ${still}in Sydney! (${e.detail.latitude}, ${e.detail.longitude})`;
+        out.appendChild(p);
+        still = "still ";
+      } else {
+        const p = document.createElement('p');
+        p.textContent = `I have no idea where you are. :(`;
+        out.appendChild(p);
+      }
+    });
+  </script>
+
+</body>
+</html>
