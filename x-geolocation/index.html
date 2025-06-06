@@ -19,11 +19,14 @@
     }
   </style>
   <script src="./scratchpad-geolocation.js"></script>
-  <link rel="preload" as="image" href="./map.png">
+  <link rel="preload" as="image" href="./map-coarse.svg">
+  <link rel="preload" as="image" href="./map-precise.svg">
 </head>
 <body>
   <scratchpad-geolocation></scratchpad-geolocation>
   <scratchpad-geolocation precise></scratchpad-geolocation>
+  <scratchpad-geolocation persistent></scratchpad-geolocation>
+  <scratchpad-geolocation precise persistent></scratchpad-geolocation>
   <script>
     document.querySelectorAll('scratchpad-geolocation').forEach(el => {
       el.output = document.createElement('output');

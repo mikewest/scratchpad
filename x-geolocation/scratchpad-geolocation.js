@@ -1,8 +1,19 @@
 class ScratchpadGeolocation extends HTMLElement {
   static LOCATION_REFRESHED = "location-refreshed";
-  
+ 
+  static Precision = {
+    PRECISE: "precise",
+    COARSE: "coarse"
+  };
+
+  static Persistence = {
+    PERSISTENT: "persistent",
+    ONCE: "once"
+  };
+
   #userHasSeenAndAcceptedTheDialog = false;
-  #precision = "coarse";
+  #precision = ScratchpadGeolocation.Precision.COARSE;
+  #persistence = ScratchpadGeolocation.Persistence.ONCE;
 
   #demoData = {
     precise: { latitude: -33.856159, longitude: 151.215256 }, // Sydney Opera House
@@ -14,7 +25,13 @@ class ScratchpadGeolocation extends HTMLElement {
   }
 
   connectedCallback() {
-    this.#precision = this.hasAttribute('precise') ? "precise" : "coarse";
+    this.#precision = this.hasAttribute('precise') ?
+      ScratchpadGeolocation.Precision.PRECISE :
+      ScratchpadGeolocation.Precision.COARSE;
+
+    this.#persistence = this.hasAttribute('persistent') ?
+      ScratchpadGeolocation.Persistence.PERSISTENT :
+      ScratchpadGeolocation.Persistence.ONCE;
 
     this.buildElement();
     this.shadowRoot.querySelector('button').addEventListener('click', _ => { this.handleClick() });
@@ -33,14 +50,13 @@ class ScratchpadGeolocation extends HTMLElement {
         border-radius: 8px;
         cursor: pointer;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        transition: background-color 0.3s ease, transform 0.2s ease;
+        transition: background-color 0.3s ease;
         font-size: 1.25em;
         text-align: center;
       }
 
       button:hover {
         background-color: #0CF;
-        transform: translateY(-2px);
       }
 
       button:active {
@@ -58,7 +74,7 @@ class ScratchpadGeolocation extends HTMLElement {
         border-radius: 8px;
         border: 0px;
         font-size: 0.8rem;
-        width: 300px;
+        width: 250px;
         padding: 0.5rem 0;
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
       }
@@ -71,6 +87,7 @@ class ScratchpadGeolocation extends HTMLElement {
         }
         dialog p:first-child {
           font-weight: bold;
+          font-size: 1rem;
         }
         dialog img {
           display: block;
@@ -83,7 +100,6 @@ class ScratchpadGeolocation extends HTMLElement {
           color: #051D49;
           margin: 0.55em auto;
           display: block;
-
         }
     `;
 
@@ -93,7 +109,15 @@ class ScratchpadGeolocation extends HTMLElement {
     img.src = "https://fonts.gstatic.com/s/i/short-term/release/googlesymbols/my_location/default/24px.svg";
     button.appendChild(img);
 
-    const txt = document.createTextNode(this.#precision === "precise" ? "Share your precise location" : "Share your location");
+    let buttonString = this.#precision === ScratchpadGeolocation.Precision.PRECISE ?
+      "Share your precise location" :
+      "Share your location";
+
+    if (this.#persistence == ScratchpadGeolocation.Persistence.PERSISTENT) {
+      buttonString += " persistently";
+    }
+
+    const txt = document.createTextNode(buttonString);
     button.appendChild(txt);
 
     root.appendChild(style);
@@ -109,11 +133,16 @@ class ScratchpadGeolocation extends HTMLElement {
     } else {
       const dialog = document.createElement('dialog');
 
+      const titleString = this.#precision === ScratchpadGeolocation.Precision.PRECISE ?
+        `<p>This website can only access your location when you choose to share it.</p>
+         <p>When you share your location with this site, a usage indicator will appear in the address bar.</p>` :
+        `<p>This website wants to know your location while you're visiting the site.</p>
+         <p>When the site accesses your location, a usage indicator will appear in the address bar.</p>`;
+
       // Can we please ship `setHTML(...)`?
       dialog.setHTMLUnsafe(`
-        <p>This website can only access your location when you choose to share it.</p>
-        <p>When you share your location with this app, a usage indicator will appear in the address bar.</p>
-        <img src="./map.png" alt="You're in Sydney!">
+        ${titleString}
+        <img src="./map-${this.#precision}.svg" alt="You're in Sydney!">
         <button>Got it</button>
         <button>Nope</button>
       `);
@@ -125,13 +154,21 @@ class ScratchpadGeolocation extends HTMLElement {
           new CustomEvent(ScratchpadGeolocation.LOCATION_REFRESHED, {
             detail: this.#demoData[this.#precision]
           }));
+        if (this.#persistence === ScratchpadGeolocation.Persistence.PERSISTENT) {
+          setInterval(_ => {
+            this.dispatchEvent(
+              new CustomEvent(ScratchpadGeolocation.LOCATION_REFRESHED, {
+                detail: this.#demoData[this.#precision]
+              }));
+          }, 1000);
+        }
       });
       buttons[1].addEventListener('click', _ => {
         dialog.close();
         this.dispatchEvent(
           new CustomEvent(ScratchpadGeolocation.LOCATION_REFRESHED, {
             detail: { dismissed: true }
-          }));      
+          }));
       });
 
       this.shadowRoot.appendChild(dialog);
