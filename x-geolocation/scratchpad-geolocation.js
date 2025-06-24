@@ -133,7 +133,7 @@ class ScratchpadGeolocation extends HTMLElement {
     } else {
       const dialog = document.createElement('dialog');
 
-      const titleString = this.#precision === ScratchpadGeolocation.Precision.PRECISE ?
+      const titleString = this.#persistence !== ScratchpadGeolocation.Persistence.PERSISTENT ?
         `<p>This website can only access your location when you choose to share it.</p>
          <p>When you share your location with this site, a usage indicator will appear in the address bar.</p>` :
         `<p>This website wants to know your location while you're visiting the site.</p>
