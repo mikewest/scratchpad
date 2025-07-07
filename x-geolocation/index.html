@@ -6,10 +6,11 @@
   <style>
     body {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
+      flex-wrap: wrap;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
+      gap: 2em;
       margin: 0;
       font-family: sans-serif;
       background-color: #f0f0f0;
@@ -23,16 +24,37 @@
   <link rel="preload" as="image" href="./map-precise.svg">
 </head>
 <body>
-  <scratchpad-geolocation></scratchpad-geolocation>
-  <scratchpad-geolocation precise></scratchpad-geolocation>
-  <scratchpad-geolocation persistent></scratchpad-geolocation>
-  <scratchpad-geolocation precise persistent></scratchpad-geolocation>
+  <article>
+    <h1>Basic</h1>
+    <xmp><geolocation></geolocation></xmp>
+    <scratchpad-geolocation></scratchpad-geolocation>
+  </article>
+  <article>
+    <h1>Watching</h1>
+    <xmp><geolocation watch></geolocation></xmp>
+    <scratchpad-geolocation watch></scratchpad-geolocation>
+  </article>
+  <article>
+    <h1>Precise</h1>
+    <xmp><geolocation precise></geolocation></xmp>
+    <scratchpad-geolocation precise></scratchpad-geolocation>
+  </article>
+  <article>
+    <h1>Precise + Watch</h1>
+    <xmp><geolocation precise watch></geolocation></xmp>
+    <scratchpad-geolocation precise watch></scratchpad-geolocation>
+  </article>
+  <article>
+    <h1>Persistentness</h1>
+    <xmp><geolocation persistent></geolocation></xmp>
+    <scratchpad-geolocation persistent></scratchpad-geolocation>
+  </article>
   <script>
     document.querySelectorAll('scratchpad-geolocation').forEach(el => {
       el.output = document.createElement('output');
       el.after(el.output);
       let still = "";
-      el.addEventListener(ScratchpadGeolocation.LOCATION_REFRESHED, e => {
+      el.addEventListener(ScratchpadGeolocation.LOCATION_EVENT, e => {
         if (e.detail.latitude) {
           // My kingdom for a sanitizer...
           const p = document.createElement('p');
