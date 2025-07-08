@@ -187,11 +187,11 @@ class ScratchpadGeolocation extends HTMLElement {
       dialog.setHTMLUnsafe(`
         ${titleString}
         <img src="./map-${this.#precision}.svg" alt="You're in Sydney!">
+        <button>Allow only via my explicit action</button>
         ${
             this.#persistence === ScratchpadGeolocation.Persistence.PER_SITE ?
                 "<button>Allow whenever I'm visiting this site</button>" : ""
         }
-        <button>Allow only via my explicit action</button>
         <button>Nope</button>
       `);
 
