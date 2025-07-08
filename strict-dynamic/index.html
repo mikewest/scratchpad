@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Quick demo of `strict-dynamic`</title>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'nonce-abcdefg' 'strict-dynamic'">
+  </head>
+  <body>
+    <h1><code>strict-dynamic</code> at work:</h1>
+    <p>
+      This page has a CSP of <code>script-src 'nonce-abcdefg' 'strict-dynamic'</code>.
+      <code>&lt;script src="./script.js" nonce="abcdefg">&lt;/script></code> will load,
+      and that it will be able to load additional scripts (which, in turn, can load
+      additional scripts) so long as those scripts are loaded via
+      non-<a href="https://html.spec.whatwg.org/#parser-inserted">"parser-inserted"</a>
+      <code>&lt;script></code> elements.
+    </p> 
+    <p>
+      Note that this mechanism requires the use of either nonces or hashes to restrict
+      the initial scripts that are directly loaded. If you need to constrain the sources
+      from which scripts are loaded as well, you can do so via an additional policy which
+      has an allowlist of hosts (e.g. <code>Content-Security-Policy: script-src 'nonce-abcdefg' 'strict-dynamic', script-src https://my.amazing.cdn</code>).
+    </p>
+    <script src="./script.js" nonce="abcdefg"></script>
+  </body>
+</html>
