@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tiny &lt;geolocation&gt; demo.</title>
+    <style>
+      geolocation::permission-icon {
+        height: 22px;
+        margin-inline-end: 0.5em;
+      }
+
+      geolocation {
+        color: white;
+        font-size: 1em;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 1em;
+        background-color: rgb(10 87 208);
+      }
+
+      #warning {
+        display: none;
+      }
+      .no-element #warning {
+        display: block;
+        color: red;
+        background: hsl(60deg 100% 90%);
+        border: 1px solid hsl(40deg 100% 90%);
+        margin: 1.5em;
+        padding: 0.5em 1em;
+        position: relative;
+        margin-top: 2em;
+        padding-top: 1em;
+        padding-bottom: 1em;
+        max-width: 20em;
+      }
+        .no-element #warning::before {
+          color: yellow;
+          background: red;
+          padding: 0.15em 0.25em;
+          position: absolute;
+          top: -0.8em;
+          left: -0.8em;
+          content: '\26A0 Warning!';
+        }
+    </style>
+  </head>
+  <body>
+    <h1><code><a href="https://github.com/WICG/PEPC/blob/main/geolocation_explainer.md">&lt;geolocation&gt;</a> Demo</code></h1>
+
+    <div id="warning">
+      <p>
+        This browser doesn't appear to support the <code>&lt;geolocation&gt;</code> element,
+        which means the following demo will be <em>quite</em> uninteresting.
+      </p>
+    </div>
+
+    <xmp><geolocation></geolocation></xmp>
+    <geolocation></geolocation>
+
+    <script>
+      if ('HTMLGeolocationElement' in window) {
+        document.querySelectorAll('install').forEach(el => {
+          el.onpromptdismiss = console.log;
+          el.onpromptaction = console.log;
+        });
+      } else {
+        document.body.classList.add("no-element");
+      }
+    </script>
+  </body>
+</html>
+
